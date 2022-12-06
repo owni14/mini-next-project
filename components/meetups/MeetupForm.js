@@ -1,12 +1,14 @@
 import styled from 'styled-components';
+import { useRef } from 'react';
 
 import Card from '../UI/Card';
 
+// CSS Style
 const OutsideFormBox = styled.div`
   margin: 3rem 0;
 `;
 
-const InsideFormBox = styled.div`
+const SubmitForm = styled.form`
   padding: 2rem;
 `;
 
@@ -67,10 +69,18 @@ const SubmitButton = styled.button`
 `;
 
 const MeetupForm = () => {
+  const titleInputRef = useRef();
+  const imageInputRef = useRef();
+  const addressInputRef = useRef();
+  const descriptionInputRef = useRef();
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+  };
   return (
     <OutsideFormBox>
       <Card>
-        <InsideFormBox>
+        <SubmitForm>
           <TitleLabel htmlFor='title'>Meetup Title</TitleLabel>
           <TitleInput id='title' />
           <ImageLabel htmlFor='image'>Meetup Image</ImageLabel>
@@ -84,7 +94,7 @@ const MeetupForm = () => {
           <ButtonBox>
             <SubmitButton>Add Meetup</SubmitButton>
           </ButtonBox>
-        </InsideFormBox>
+        </SubmitForm>
       </Card>
     </OutsideFormBox>
   );
