@@ -88,10 +88,10 @@ const MeetupForm = () => {
     const enteredDescription = descriptionInputRef.current.value;
 
     const meetupData = {
-      enteredTitle: enteredTitle,
-      enteredImage: enteredImage,
-      enteredAddress: enteredAddress,
-      enteredDescription: enteredDescription,
+      title: enteredTitle,
+      image: enteredImage,
+      address: enteredAddress,
+      description: enteredDescription,
     };
 
     axios({
