@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
+
 import Card from '../UI/Card';
 
 const MeetItem = styled.li`
@@ -49,7 +51,12 @@ const DetailButton = styled.button`
 `;
 
 const MeetupItem = (props) => {
-  console.log('props:: ', props);
+  const router = useRouter();
+
+  const detailHandler = () => {
+    router.push(`/meetupDetails/${props.id}`);
+  };
+
   return (
     <MeetItem>
       <Card>
@@ -61,7 +68,7 @@ const MeetupItem = (props) => {
           <AddressParagraph>{props.address}</AddressParagraph>
         </InfoBox>
         <ButtonBox>
-          <DetailButton>Show Detail</DetailButton>
+          <DetailButton onClick={detailHandler}>Show Detail</DetailButton>
         </ButtonBox>
       </Card>
     </MeetItem>

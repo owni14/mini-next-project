@@ -1,9 +1,11 @@
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
 import { useRef } from 'react';
+import axios from 'axios';
 
 import Card from '../UI/Card';
 
-// CSS Style
+// === CSS Style ===
 const OutsideFormBox = styled.div`
   margin: 3rem 0;
 `;
@@ -63,12 +65,15 @@ const SubmitButton = styled.button`
   background-color: transparent;
   cursor: pointer;
   padding: 1rem;
+  border-radius: 10px;
   &:hover {
     background-color: #1e90ff;
   }
 `;
+// === CSS Style ===
 
 const MeetupForm = () => {
+  const route = useRouter();
   const titleInputRef = useRef();
   const imageInputRef = useRef();
   const addressInputRef = useRef();
@@ -76,21 +81,51 @@ const MeetupForm = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+
+    const enteredTitle = titleInputRef.current.value;
+    const enteredImage = imageInputRef.current.value;
+    const enteredAddress = addressInputRef.current.value;
+    const enteredDescription = descriptionInputRef.current.value;
+
+    const meetupData = {
+      enteredTitle: enteredTitle,
+      enteredImage: enteredImage,
+      enteredAddress: enteredAddress,
+      enteredDescription: enteredDescription,
+    };
+
+    axios({
+      url: '/api/dbHandler',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: meetupData,
+    })
+      .then((res) => {
+        route.push('/');
+      })
+      .catch((err) => console.log(err));
   };
+
   return (
     <OutsideFormBox>
       <Card>
-        <SubmitForm>
+        <SubmitForm onSubmit={submitHandler}>
           <TitleLabel htmlFor='title'>Meetup Title</TitleLabel>
-          <TitleInput id='title' />
+          <TitleInput id='title' required ref={titleInputRef} />
           <ImageLabel htmlFor='image'>Meetup Image</ImageLabel>
-          <ImageInput id='image' />
+          <ImageInput id='image' required type='url' ref={imageInputRef} />
           <AddressLabel htmlFor='address'>Meetup Address</AddressLabel>
-          <AddressInput id='address' />
+          <AddressInput id='address' required ref={addressInputRef} />
           <DescriptionLabel htmlFor='description'>
             Meetup Description
           </DescriptionLabel>
-          <DescriptionTextarea id='description' />
+          <DescriptionTextarea
+            id='description'
+            required
+            ref={descriptionInputRef}
+          />
           <ButtonBox>
             <SubmitButton>Add Meetup</SubmitButton>
           </ButtonBox>
